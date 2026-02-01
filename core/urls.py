@@ -17,9 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from portal import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('accounts/logout/', views.custom_logout, name='logout'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('portal/', include('portal.urls')),
     path('', RedirectView.as_view(url='/accounts/login/')),

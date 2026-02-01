@@ -4,7 +4,7 @@
 <div class="mb-8">
     <p class="text-sm font-semibold mb-1">Overall Onboarding Progress</p>
     <div class="w-full bg-gray-200 rounded-full h-4">
-        <div class="bg-green-600 h-4 rounded-full" style="width: {% if profile.it_request_sent %}100%{% elif profile.signed_nda %}50%{% else %}10%{% endif %}"></div>
+        <div class="bg-green-600 h-4 rounded-full" style="width: {% widthratio profile.progress 1 100 %}%"></div>
     </div>
 </div>
 
@@ -12,17 +12,31 @@
     <div class="p-4 border rounded {% if profile.signed_nda %}bg-green-50 border-green-500{% else %}bg-yellow-50 border-yellow-500{% endif %}">
         <h3 class="font-bold">Step 1: Sign NDA</h3>
         <p>{% if profile.signed_nda %}✅ Completed{% else %}⏳ Action Required{% endif %}</p>
+        {% if not profile.signed_nda %}
+            <a href="{% url 'sign_nda' %}" class="mt-2 inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
+                Sign NDA
+            </a>
+        {% endif %}
     </div>
     <div class="p-4 border rounded {% if profile.completed_security_training %}bg-green-50 border-green-500{% else %}bg-yellow-50 border-yellow-500{% endif %}">
         <h3 class="font-bold">Step 2: Security Training</h3>
         <p>{% if profile.completed_security_training %}✅ Completed{% else %}⏳ Action Required{% endif %}</p>
+        {% if not profile.completed_security_training %}
+            <a href="{% url 'complete_training' %}" class="mt-2 inline-block bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
+                Complete Training
+            </a>
+        {% endif %}
     </div>
 </div>
 
-{% if not profile.it_request_sent %}
+{% if not profile.it_request_sent and profile.signed_nda and profile.completed_security_training %}
     <a href="{% url 'request_it' %}" class="mt-6 inline-block bg-blue-900 text-white px-6 py-2 rounded">
         Trigger IT Access Request
     </a>
+{% elif not profile.it_request_sent %}
+    <div class="mt-6 p-4 bg-yellow-50 border border-yellow-500 text-yellow-700 rounded">
+        Complete NDA and Security Training to unlock IT Access Request.
+    </div>
 {% else %}
     <div class="mt-6 p-4 bg-blue-50 border border-blue-500 text-blue-700 rounded">
         <strong>Status:</strong> IT Access Request has been automatically routed. [cite: 169]

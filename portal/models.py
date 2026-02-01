@@ -14,6 +14,12 @@ class EmployeeProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+    @property
+    def progress(self):
+        steps = [self.signed_nda, self.completed_security_training, self.it_request_sent]
+        completed = sum(steps)
+        return completed / 3  # 0, 0.333, 0.666, 1
+
 class ITRequest(models.Model):
     employee = models.ForeignKey(EmployeeProfile, on_delete=models.CASCADE)
     request_type = models.CharField(max_length=100, default='New Hire Provisioning')
