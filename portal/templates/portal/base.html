@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Okay Staff-Connect</title>
+    <script src="https://cdn.tailwindcss.com"></script> </head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-900 p-4 text-white flex justify-between">
+        <h1 class="font-bold text-xl">Okay Staff-Connect</h1>
+        <span>Media & Broadcasting HR Portal</span>
+    </nav>
+    <div class="container mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
+        {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                    <div class="p-4 mb-4 text-sm {% if message.tags == 'error' %}text-red-700 bg-red-100{% else %}text-green-700 bg-green-100{% endif %} rounded-lg" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

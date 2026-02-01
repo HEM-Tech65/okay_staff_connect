@@ -1,0 +1,31 @@
+{% extends 'portal/base.html' %}
+{% block content %}
+<h2 class="text-2xl font-bold mb-5">Welcome, {{ profile.user.username }}</h2>
+<div class="mb-8">
+    <p class="text-sm font-semibold mb-1">Overall Onboarding Progress</p>
+    <div class="w-full bg-gray-200 rounded-full h-4">
+        <div class="bg-green-600 h-4 rounded-full" style="width: {% if profile.it_request_sent %}100%{% elif profile.signed_nda %}50%{% else %}10%{% endif %}"></div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="p-4 border rounded {% if profile.signed_nda %}bg-green-50 border-green-500{% else %}bg-yellow-50 border-yellow-500{% endif %}">
+        <h3 class="font-bold">Step 1: Sign NDA</h3>
+        <p>{% if profile.signed_nda %}✅ Completed{% else %}⏳ Action Required{% endif %}</p>
+    </div>
+    <div class="p-4 border rounded {% if profile.completed_security_training %}bg-green-50 border-green-500{% else %}bg-yellow-50 border-yellow-500{% endif %}">
+        <h3 class="font-bold">Step 2: Security Training</h3>
+        <p>{% if profile.completed_security_training %}✅ Completed{% else %}⏳ Action Required{% endif %}</p>
+    </div>
+</div>
+
+{% if not profile.it_request_sent %}
+    <a href="{% url 'request_it' %}" class="mt-6 inline-block bg-blue-900 text-white px-6 py-2 rounded">
+        Trigger IT Access Request
+    </a>
+{% else %}
+    <div class="mt-6 p-4 bg-blue-50 border border-blue-500 text-blue-700 rounded">
+        <strong>Status:</strong> IT Access Request has been automatically routed. [cite: 169]
+    </div>
+{% endif %}
+{% endblock %}

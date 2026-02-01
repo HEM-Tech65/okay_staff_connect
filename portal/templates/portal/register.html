@@ -1,0 +1,46 @@
+{% extends "portal/base.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <h2 class="text-2xl font-bold mb-6 text-center">Create Your Account</h2>
+    <form method="post" class="bg-white p-6 rounded-lg shadow-md">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="{{ form.username.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <p class="text-red-500 text-xs italic">{{ form.username.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-4">
+            <label for="{{ form.password1.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <p class="text-red-500 text-xs italic">{{ form.password1.errors.0 }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-6">
+            <label for="{{ form.password2.id_for_label }}" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <p class="text-red-500 text-xs italic">{{ form.password2.errors.0 }}</p>
+            {% endif %}
+        </div>
+        {% if form.non_field_errors %}
+            <div class="mb-4">
+                {% for error in form.non_field_errors %}
+                    <p class="text-red-500 text-xs italic">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="flex items-center justify-between">
+            <button type="submit" class="bg-blue-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Create Account
+            </button>
+        </div>
+    </form>
+    <p class="text-center mt-4">
+        Already have an account? <a href="{% url 'login' %}" class="text-blue-600 hover:text-blue-800">Log in here</a>
+    </p>
+</div>
+{% endblock %}
